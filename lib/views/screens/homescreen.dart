@@ -25,17 +25,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadData() async {
     await _viewModel.loadPokemonList();
-    setState(() {});  // ← Trigger rebuild
+    setState(() {});
   }
 
   Future<void> _search(String query) async {
     await _viewModel.searchPokemon(query);
-    setState(() {});  // ← Trigger rebuild
+    setState(() {});
   }
 
   Future<void> _refresh() async {
     await _viewModel.loadPokemonList();
-    setState(() {});  // ← Trigger rebuild
+    setState(() {});
   }
 
   @override

@@ -18,9 +18,6 @@ class PokemonViewModel {
   bool get hasError => _errorMessage != null;
   bool get hasData => _pokemonList.isNotEmpty;
 
-  // NO ChangeNotifier, NO notifyListeners()
-  // Just plain methods that return data
-
   Future<void> loadPokemonList({int limit = 20}) async {
     _isLoading = true;
     _errorMessage = null;
@@ -47,7 +44,6 @@ class PokemonViewModel {
       _pokemonList = [];
       return;
     }
-
     _isLoading = true;
     _errorMessage = null;
 
