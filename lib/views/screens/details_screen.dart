@@ -6,7 +6,7 @@ import '../../utils/constants.dart';
 class DetailScreen extends StatelessWidget {
   final Pokemon pokemon;
 
-  const DetailScreen({Key? key, required this.pokemon}) : super(key: key);
+  const DetailScreen({super.key, required this.pokemon});
 
   @override
   Widget build(BuildContext context) {
