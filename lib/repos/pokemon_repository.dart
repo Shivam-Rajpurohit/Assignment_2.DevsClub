@@ -27,6 +27,12 @@ class PokeRepo {
     }
   }
 
+  Future<List<Pokemon>> fetchPokemonListWithDetails({int limit = 20}) async {
+    final entries = await fetchPokemonList(limit: limit);
+    final futures = entries.map((entry) => fetchPokemonDetail(entry['url']));
+    return Future.wait(futures);
+  }
+
   Future<Pokemon> fetchPokemonDetail(String url) async {
     try {
       final response = await _client
