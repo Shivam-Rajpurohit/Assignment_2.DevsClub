@@ -16,25 +16,10 @@ class ShimmerLoading extends StatelessWidget {
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: ListTile(
-              leading: Container(
-                width: 60,
-                height: 60,
-                color: Colors.white,
-              ),
-              title: Container(
-                height: 16,
-                color: Colors.white,
-              ),
-              subtitle: Container(
-                height: 12,
-                width: 80,
-                color: Colors.white,
-              ),
-              trailing: Container(
-                height: 14,
-                width: 40,
-                color: Colors.white,
-              ),
+              leading: Container(width: 60, height: 60, color: Colors.white),
+              title: Container(height: 16, color: Colors.white),
+              subtitle: Container(height: 12, width: 80, color: Colors.white),
+              trailing: Container(height: 14, width: 40, color: Colors.white),
             ),
           );
         },

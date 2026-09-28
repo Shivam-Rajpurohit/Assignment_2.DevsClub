@@ -16,7 +16,7 @@ class Pokemon {
     required this.weight,
     required this.types,
     required this.abilities,
-    this.baseExperience
+    this.baseExperience,
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {

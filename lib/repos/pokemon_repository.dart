@@ -43,7 +43,9 @@ class PokeRepo {
         final data = json.decode(response.body);
         return Pokemon.fromJson(data);
       } else {
-        throw Exception('Failed to load Pokemon detail: ${response.statusCode}');
+        throw Exception(
+          'Failed to load Pokemon detail: ${response.statusCode}',
+        );
       }
     } catch (e) {
       throw Exception('Network error: $e');
@@ -53,7 +55,9 @@ class PokeRepo {
   Future<Pokemon> fetchPokemonByIdOrName(String query) async {
     try {
       final response = await _client
-          .get(Uri.parse('${AppConstants.baseUrl}/pokemon/${query.toLowerCase()}'))
+          .get(
+            Uri.parse('${AppConstants.baseUrl}/pokemon/${query.toLowerCase()}'),
+          )
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {

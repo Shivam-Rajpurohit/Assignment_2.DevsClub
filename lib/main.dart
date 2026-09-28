@@ -12,10 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Pokédex',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        useMaterial3: true,
-      ),
+      theme: ThemeData(primarySwatch: Colors.red, useMaterial3: true),
       home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );

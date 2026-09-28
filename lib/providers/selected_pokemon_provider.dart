@@ -8,6 +8,6 @@ class SelectedPokemonNotifier extends Notifier<Pokemon?> {
 }
 
 final selectedPokemonProvider =
-NotifierProvider<SelectedPokemonNotifier, Pokemon?>(
-  SelectedPokemonNotifier.new,
-);
+    NotifierProvider<SelectedPokemonNotifier, Pokemon?>(
+      SelectedPokemonNotifier.new,
+    );

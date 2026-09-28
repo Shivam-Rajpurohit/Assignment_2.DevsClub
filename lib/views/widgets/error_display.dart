@@ -4,11 +4,7 @@ class ErrorDisplay extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
 
-  const ErrorDisplay({
-    super.key,
-    required this.message,
-    required this.onRetry,
-  });
+  const ErrorDisplay({super.key, required this.message, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +14,7 @@ class ErrorDisplay extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 80,
-              color: Colors.red.shade300,
-            ),
+            Icon(Icons.error_outline, size: 80, color: Colors.red.shade300),
             const SizedBox(height: 16),
             Text(
               'Something went wrong',
@@ -36,10 +28,7 @@ class ErrorDisplay extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 14,
-              ),
+              style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
