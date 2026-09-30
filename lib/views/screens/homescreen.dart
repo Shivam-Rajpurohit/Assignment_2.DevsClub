@@ -19,11 +19,27 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _searchController = TextEditingController();
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      ref.read(pokemonListProvider.notifier).loadMore();
+    }
   }
 
   void _search(String query) {
@@ -78,7 +94,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final searchResults = searchAsync.value ?? const [];
     if (searchResults.isNotEmpty) {
-      return _buildList(searchResults);
+      return _buildSearchList(searchResults);
     }
 
     return listAsync.when(
@@ -86,28 +102,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       error: (e, _) => ErrorDisplay(message: e.toString(), onRetry: _refresh),
       data: (items) {
         if (items.isEmpty) return const EmptyDisplay();
-        return _buildList(items);
+        return _buildDefaultList(items);
       },
     );
   }
 
-  Widget _buildList(List<Pokemon> items) {
+  Widget _buildDefaultList(List<Pokemon> items) {
+    final hasMore = ref.read(pokemonListProvider.notifier).hasMore;
+
+    return ListView.builder(
+      controller: _scrollController,
+      padding: const EdgeInsets.all(8),
+      itemCount: items.length + (hasMore ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index == items.length) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+        return _buildCard(items[index]);
+      },
+    );
+  }
+
+  Widget _buildSearchList(List<Pokemon> items) {
     return ListView.builder(
       padding: const EdgeInsets.all(8),
       itemCount: items.length,
-      itemBuilder: (context, index) {
-        final pokemon = items[index];
-        return PokemonCard(
-          pokemon: pokemon,
-          onTap: () {
-            ref.read(selectedPokemonProvider.notifier).select(pokemon);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailScreen(pokemon: pokemon),
-              ),
-            );
-          },
+      itemBuilder: (context, index) => _buildCard(items[index]),
+    );
+  }
+
+  Widget _buildCard(Pokemon pokemon) {
+    return PokemonCard(
+      pokemon: pokemon,
+      onTap: () {
+        ref.read(selectedPokemonProvider.notifier).select(pokemon);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(pokemon: pokemon),
+          ),
         );
       },
     );
