@@ -10,10 +10,17 @@ class PokeRepo {
     _client.close();
   }
 
-  Future<List<Map<String, dynamic>>> fetchPokemonList({int limit = 20}) async {
+  Future<List<Map<String, dynamic>>> fetchPokemonList({
+    int limit = 20,
+    int offset = 0,
+  }) async {
     try {
       final response = await _client
-          .get(Uri.parse('${AppConstants.baseUrl}/pokemon?limit=$limit'))
+          .get(
+        Uri.parse(
+          '${AppConstants.baseUrl}/pokemon?limit=$limit&offset=$offset',
+        ),
+      )
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -27,8 +34,11 @@ class PokeRepo {
     }
   }
 
-  Future<List<Pokemon>> fetchPokemonListWithDetails({int limit = 20}) async {
-    final entries = await fetchPokemonList(limit: limit);
+  Future<List<Pokemon>> fetchPokemonListWithDetails({
+    int limit = 20,
+    int offset = 0,
+  }) async {
+    final entries = await fetchPokemonList(limit: limit, offset: offset);
     final futures = entries.map((entry) => fetchPokemonDetail(entry['url']));
     return Future.wait(futures);
   }
@@ -56,8 +66,8 @@ class PokeRepo {
     try {
       final response = await _client
           .get(
-            Uri.parse('${AppConstants.baseUrl}/pokemon/${query.toLowerCase()}'),
-          )
+        Uri.parse('${AppConstants.baseUrl}/pokemon/${query.toLowerCase()}'),
+      )
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -80,7 +90,7 @@ class PokeRepo {
       return [pokemon];
     } catch (e) {
       try {
-        final allPokemon = await fetchPokemonList(limit: 1000);
+        final allPokemon = await fetchPokemonList(limit: 1400);
         final matching = allPokemon
             .where((entry) => entry['name'].contains(query.toLowerCase()))
             .take(20)
